@@ -1,12 +1,20 @@
 using Project.Models;
-
+using Project.Helpers;
 namespace Project.Repositories;
 public class MemCustomerRepository : ICustomerRepository
 {
-    public ICollection<Customer> customers;
-    public MemCustomerRepository()
+    public static List<Customer> customers = new List<Customer>();
+    // public MemCustomerRepository(List<Customer> customers)
+    // {
+    //     this.customers = customers;
+    // }
+    public static List<Customer> GetInstance()
     {
-        customers = new List<Customer>();
+        if (customers == null)
+        {
+            customers = new List<Customer>();
+        }
+        return customers;
     }
     public void Add(Customer customer)
     {
@@ -43,7 +51,9 @@ public class MemCustomerRepository : ICustomerRepository
 
     public void Update(Customer customer)
     {
-        this.DeleteByPhoneNumber(customer.PhoneNumber);
-        customers.Add(customer);
+        foreach (Customer c in customers.Where(c => c.PhoneNumber == customer.PhoneNumber))
+        {
+            c.GetUpdate(customer);
+        }
     }
 }

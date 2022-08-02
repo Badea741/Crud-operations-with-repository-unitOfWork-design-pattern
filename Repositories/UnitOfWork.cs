@@ -12,10 +12,7 @@ public class UnitOfWork : IDisposable
         this.propertyRepository = propertyRepository;
         this.customerRepository = customerRepository;
     }
-    public void ChangeToMemCustomer()
-    {
-        this.customerRepository = new MemCustomerRepository();
-    }
+
     public bool Save()
     {
         try

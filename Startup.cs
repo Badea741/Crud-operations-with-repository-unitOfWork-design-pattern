@@ -5,8 +5,10 @@ using Project.Repositories;
 namespace Project.Startup;
 public class Startup
 {
+
     string _MyAllowSpecificOrigins = nameof(_MyAllowSpecificOrigins);
     WebApplicationBuilder Builder = WebApplication.CreateBuilder();
+
     public Startup()
     {
         Builder = WebApplication.CreateBuilder();
@@ -25,8 +27,9 @@ public class Startup
             .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
         services.AddSwaggerGen();
         services.AddScoped<UnitOfWork>();
-        services.AddScoped<ICustomerRepository, CustomerRepository>(c => ActivatorUtilities.CreateInstance<CustomerRepository>(c));
+        services.AddScoped<ICustomerRepository, MemCustomerRepository>();
         services.AddScoped<IPropertyRepository, PropertyRepository>(c => ActivatorUtilities.CreateInstance<PropertyRepository>(c));
+        // services.AddSingleton<List<Customer>>();
 
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
